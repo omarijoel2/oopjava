@@ -23,9 +23,9 @@ import parsing.ParseFeed;
 
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
- * Author: UC San Diego Intermediate Software Development MOOC team
+ * Author:  Joel Omari
  * @author Your name here
- * Date: July 17, 2015
+ * Date: November 12, 2020
  * */
 public class EarthquakeCityMap extends PApplet {
 
@@ -73,6 +73,13 @@ public class EarthquakeCityMap extends PApplet {
 	    //PointFeatures have a getLocation method
 	    List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
 	    
+	    if (earthquakes.size() > 0) {
+	    	PointFeature f = earthquakes.get(0);
+	    	System.out.println(f.getProperties());
+	    	Object magObj = f.getProperty("magnitude");
+	    	float mag = Float.parseFloat(magObj.toString());
+	    	// PointFeatures also have a getLocation method
+	    }
 	    //TODO (Step 3): Add a loop here that calls createMarker (see below) 
 	    // to create a new SimplePointMarker for each PointFeature in 
 	    // earthquakes.  Then add each new SimplePointMarker to the 
@@ -131,9 +138,30 @@ public class EarthquakeCityMap extends PApplet {
 
 	// helper method to draw key in GUI
 	// TODO: Implement this method to draw the key
-	private void addKey() 
-	{	
-		// Remember you can use Processing's graphics methods here
+	private void addKey() {
+
+        fill(255);
+        rect(10, 50, 180, 200);
+
+        fill(0);
+        textSize(12);
+        text("Earthquake Key", 60, 90);
+        text("5.0+ Magnitude", 75, 140);
+        text("4.0+ Magnitude", 75, 180);
+        text("Below 4.0", 75, 220);
+
+        fill(255,0,0);  // Set fill to red
+        ellipse(40, 132, 16, 16);
+        fill(255,255,0);  // Set fill to yellow
+        ellipse(40, 174, 12, 12);
+        fill(0,0,255);  // Set fill to blue
+        ellipse(40, 216, 8, 8);
+
+
+        fill(255);
+        textSize(12);
+        text("@author salimt", 60, 550);
+        // Remember you can use Processing's graphics methods here
 	
 	}
 }

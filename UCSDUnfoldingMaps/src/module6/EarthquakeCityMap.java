@@ -2,6 +2,7 @@ package module6;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -85,7 +86,7 @@ public class EarthquakeCityMap extends PApplet {
 		//earthquakesURL = "test2.atom";
 		
 		// Uncomment this line to take the quiz
-		//earthquakesURL = "quiz2.atom";
+		earthquakesURL = "quiz2.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -139,7 +140,23 @@ public class EarthquakeCityMap extends PApplet {
 	// TODO: Add the method:
 	//   private void sortAndPrint(int numToPrint)
 	// and then call that method from setUp
-	
+	private void sortAndPrint(int numToPrint) {
+		EarthquakeMarker eqList[] = new EarthquakeMarker[quakeMarkers.size()];
+		eqList = quakeMarkers.toArray(eqList);
+		Arrays.sort(eqList);
+		if (numToPrint > quakeMarkers.size()) {
+			for (EarthquakeMarker eq : eqList) {
+				String Title = eq.getStringProperty("title");
+				System.out.println(Title);
+			}
+		}
+		else {
+			for (int i=0; i < numToPrint; i++) {
+				String Title = eqList[i].getStringProperty("title");
+				System.out.println(Title);
+			}
+		}
+	}
 	/** Event handler that gets called automatically when the 
 	 * mouse moves.
 	 */
@@ -265,18 +282,34 @@ public class EarthquakeCityMap extends PApplet {
 	// helper method to draw key in GUI
 	private void addKey() {	
 		// Remember you can use Processing's graphics methods here
-		fill(255, 250, 240);
 		
+		// Remember you can use Processing's graphics methods here
+		fill(255, 250, 240);
+				
+		int radius = 15;
+		int x = 35;
+		int y = 130;
+				
 		int xbase = 25;
 		int ybase = 50;
-		
-		rect(xbase, ybase, 150, 250);
-		
+				
+		rect(10, ybase, 165, 250);
+				
 		fill(0);
+		strokeWeight(1);
+		line(x-radius, y, x+radius, y);
+		line((float) (x-0.2*radius), y-radius,(float) (x+0.2*radius), y+radius);
+		line((float) (x-0.2*radius), y-radius,(float) (x-0.4*radius), (float) (y+0.50*radius));
+		line((float) (x+0.4*radius),(float) (y-0.5*radius),(float) (x+0.2*radius), y+radius);
+		line((float) (x-0.6*radius),(float) (y-0.3*radius),(float) (x-0.4*radius), (float) (y+0.50*radius));
+		line((float) (x+0.4*radius),(float) (y-0.5*radius),(float) (x+0.6*radius),(float) (y+0.3*radius));
+		line((float) (x-0.6*radius),(float) (y-0.3*radius),(float) (x-0.7*radius), (float) (y));
+		line((float) (x+0.7*radius),(float) (y),(float) (x+0.6*radius),(float) (y+0.3*radius));
+				
 		textAlign(LEFT, CENTER);
 		textSize(12);
 		text("Earthquake Key", xbase+25, ybase+25);
-		
+				
 		fill(150, 30, 30);
 		int tri_xbase = xbase + 35;
 		int tri_ybase = ybase + 50;
@@ -287,25 +320,25 @@ public class EarthquakeCityMap extends PApplet {
 		fill(0, 0, 0);
 		textAlign(LEFT, CENTER);
 		text("City Marker", tri_xbase + 15, tri_ybase);
-		
+				
 		text("Land Quake", xbase+50, ybase+70);
 		text("Ocean Quake", xbase+50, ybase+90);
 		text("Size ~ Magnitude", xbase+25, ybase+110);
-		
+				
 		fill(255, 255, 255);
 		ellipse(xbase+35, 
 				ybase+70, 
 				10, 
 				10);
 		rect(xbase+35-5, ybase+90-5, 10, 10);
-		
+
 		fill(color(255, 255, 0));
 		ellipse(xbase+35, ybase+140, 12, 12);
 		fill(color(0, 0, 255));
 		ellipse(xbase+35, ybase+160, 12, 12);
 		fill(color(255, 0, 0));
 		ellipse(xbase+35, ybase+180, 12, 12);
-		
+				
 		textAlign(LEFT, CENTER);
 		fill(0, 0, 0);
 		text("Shallow", xbase+50, ybase+140);
@@ -313,7 +346,7 @@ public class EarthquakeCityMap extends PApplet {
 		text("Deep", xbase+50, ybase+180);
 
 		text("Past hour", xbase+50, ybase+200);
-		
+				
 		fill(255, 255, 255);
 		int centerx = xbase+35;
 		int centery = ybase+200;
@@ -323,6 +356,8 @@ public class EarthquakeCityMap extends PApplet {
 		line(centerx-8, centery-8, centerx+8, centery+8);
 		line(centerx-8, centery+8, centerx+8, centery-8);
 		
+		
+	
 		
 	}
 
@@ -373,6 +408,7 @@ public class EarthquakeCityMap extends PApplet {
 		}
 		System.out.println("OCEAN QUAKES: " + totalWaterQuakes);
 	}
+	
 	
 	
 	
